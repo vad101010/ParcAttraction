@@ -3,16 +3,21 @@ package fr.istic.csr;
 public class Billetterie
 {
     private int nbBillet = 50;
-    private ResponsableBilletterie responsable;
     private boolean rupture = false;
-
-    public Billetterie()
-    {
-        this.responsable = new ResponsableBilletterie(this);
-    }
 
     public synchronized void remettreBillet(int nbBillet)
     {
+        while (!rupture)
+        {
+            try
+            {
+                wait();
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
         this.nbBillet += nbBillet;
         rupture = false;
         notifyAll();

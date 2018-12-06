@@ -8,6 +8,11 @@ public class ResponsableBilletterie extends Thread
     public ResponsableBilletterie(Billetterie laBilletterie)
     {
         this.laBilletterie = laBilletterie;
+        this.setDaemon(true);
+    }
+
+    public synchronized void checkRupture()
+    {
     }
 
     @Override
@@ -15,19 +20,7 @@ public class ResponsableBilletterie extends Thread
     {
         while (true)
         {
-            while (!laBilletterie.isRupture())
-            {
-                try
-                {
-                    wait();
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            laBilletterie.remettreBillet(remiseBillet);
-            notifyAll();
+            laBilletterie.remettreBillet(10);
         }
     }
 }

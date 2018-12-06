@@ -1,5 +1,6 @@
 package fr.istic.csr;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Navette extends Thread
@@ -15,29 +16,25 @@ public class Navette extends Thread
         this.tpsAttente = tpsAttente;
         this.nbPlace = nbPlace;
         this.attraction = attraction;
+        this.clients = new ArrayList<>();
+        this.setDaemon(true);
     }
 
-    public List<Client> getClients()
+    public synchronized boolean isAvailablePlace()
     {
-        return clients;
-    }
-
-    public synchronized boolean addClients(Client client)
-    {
-        if (clients.size() == nbPlace) return false;
-        clients.add(client);
+        if (nbPlace == clients.size()) return false;
         return true;
     }
 
-    public void removeClients()
+    public synchronized void embarquer(Client cli)
     {
-        clients.clear();
+        clients.add(cli);
     }
 
-    public void rouler() throws InterruptedException
+    public synchronized void debarquer(Client cli) throws InterruptedException
     {
-        wait();
         while (this != attraction.getNavetteaQuai()) wait();
+        clients.remove(cli);
     }
 
     @Override
@@ -50,7 +47,6 @@ public class Navette extends Thread
                 attraction.departNavette();
                 sleep(tempsderoute);
                 attraction.retourNavette(this);
-                notifyAll();
                 sleep(tpsAttente);
             }
         }
