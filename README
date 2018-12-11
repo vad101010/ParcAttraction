@@ -1,10 +1,11 @@
 Dans ce TP nous avons fait le choix d'avoir 5 classes en plus du Main qui vont se composer comme suit:
--"Attraction" qui est l'attraction et qui se compose de navettes et d'une seul navette qui se trouve à quai. Elle permet au client de se rendre de faire un tour de navette dès lors qu'une d'elle est disponible et pleinne. Elle permet aussi aux Navette de signaler leurs départs et arrivées.
--"Billetterie" qui est la billetterie du Parc et qui propose aux clients de retirer des tickets et au responsable de remettre des tickets.
--"Client" qui est un thread et qui représente l'un des clients qui va au parc et qui fait 2 attractions avant de partir.
--"Navette" qui est un thread et qui représente l'une des navettes qui tourne indéfiniment dans son attraction.
--"ResponsableBilletterie" qui est un Thread et qui représente le responsable de la billetterie et qui attend pour remettre des billets dès lors qu'il n'y en à plus assez.
+- "Attraction" : attraction du Parc qui se compose de navettes dont une seule peut se trouver à quai. Elle permet au client de faire un tour de navette dès lors qu'une est disponible. Elle permet aussi aux Navette de signaler leurs départs et arrivées.
+- "Billetterie" : billetterie du Parc qui propose aux clients de prendre des tickets et au responsable de d'en remettre.
+- "Client" : Thread qui représente un client qui va au Parc et qui fait 2 attractions avant de partir.
+- "Navette" : Thread qui représente une navettes qui tourne indéfiniment dans son attraction.
+- "ResponsableBilletterie" : Thread qui représente le responsable de la billetterie et qui attend pour remettre des billets dès lors qu'il n'y en a plus assez.
 
 Nous avons identifé les problèmes suivants:
-1. Il s'agissait de faire attendre le thread "Client" séparément dans la "file d'attente" de l'attraction pour accéder à la navette puis une seconde attente à l'intérrieur de la navette jusqu'à ce qu'elle réalise son tour et qu'elle revienne à quai afin que l'attente dans la navette ne bloque pas l'entrée des nouveaux clients dans l'attraction pendant le trajet de celle-ci.
-2. Le thread "ResponsableBilletterie" devait remettre des tickets dès lors que des clients était en attente pour en récupérer.
+1. Il s'agissait de faire attendre le thread "Client" séparément dans la "file d'attente" de l'attraction pour accéder à la navette puis une seconde attente à l'intérieur de la navette jusqu'à ce qu'elle réalise son tour et qu'elle revienne à quai afin que l'attente dans la navette ne bloque pas l'entrée des nouveaux clients dans l'attraction pendant le trajet de celle-ci.
+2. Il s'agissait également de faire attendre les navettes pour qu'il n'y ait qu'une navette à quai au maximum par attraction.
+3. Le thread "ResponsableBilletterie" devait remettre des tickets dès lors que des clients était en attente pour en récupérer.

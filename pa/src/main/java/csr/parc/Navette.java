@@ -23,6 +23,10 @@ public class Navette extends Thread
         this.setDaemon(true);
     }
 
+    public List<Client> getClients() {
+        return clients;
+    }
+
     //retourn vrai si il y a de la place dans la navette
     public synchronized boolean isAvailablePlace()
     {
