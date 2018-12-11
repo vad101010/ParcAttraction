@@ -1,4 +1,4 @@
-package fr.istic.csr;
+package main.java.csr.parc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ public class Attraction
     private Navette navetteaQuai;
     private List<Navette> navettes;
 
-    //création de l'attraction avec nbNavette navettes d'une durée de circuit de tpsCircuit avec nbPlaces places
+    // Création de l'attraction avec son nombre de navettes, sa durée et le nombre de places par navette
     public Attraction(int nbNavette, int tpsCircuit, int nbPlaces)
     {
         navettes = new ArrayList<>();
@@ -21,14 +21,19 @@ public class Attraction
         }
     }
 
-    //méthode permettant à un client d'entrer dans une navette dès qu'il y a de la place disponible (attendre si non) et
-    // ressortir à la fin du tour dès que la navette revient à quai
+    //méthode permettant à un client d'entrer dans une navette dès qu'il y a de la place disponible (attendre si non)
     public synchronized void embarquer(Client client) throws InterruptedException
     {
         while (navetteaQuai == null || !navetteaQuai.isAvailablePlace()) wait();
-        System.out.println("J'embarque");
         navetteaQuai.embarquer(client);
+        System.out.println("J'embarque");
         wait();
+    }
+
+    // Méthode permettant de faire sortir les clients de la navette une fois le tour terminé
+    public synchronized void debarquer(Client client) throws InterruptedException
+    {
+        while (navetteaQuai == null) wait();
         navetteaQuai.debarquer(client);
         System.out.println("je débarque");
     }
@@ -38,6 +43,7 @@ public class Attraction
     {
         while (navetteaQuai != null) wait();
         navetteaQuai = nav;
+        nav.setEtat(EtatNavette.STOPPED);
         notifyAll();
     }
 
@@ -45,11 +51,16 @@ public class Attraction
     public synchronized void departNavette()
     {
         navetteaQuai = null;
+        notifyAll();
     }
 
     //retourne la navette actuellement à quai
     public Navette getNavetteaQuai()
     {
         return navetteaQuai;
+    }
+
+    public List<Navette> getNavettes() {
+        return navettes;
     }
 }

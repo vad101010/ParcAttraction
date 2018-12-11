@@ -1,4 +1,4 @@
-package fr.istic.csr;
+package main.java.csr.parc;
 
 public class ResponsableBilletterie extends Thread
 {

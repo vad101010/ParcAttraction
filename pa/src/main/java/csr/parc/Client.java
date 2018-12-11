@@ -1,4 +1,4 @@
-package fr.istic.csr;
+package main.java.csr.parc;
 
 import java.util.List;
 import java.util.Random;
@@ -9,12 +9,14 @@ public class Client extends Thread
     private List<Attraction> listAttraction;
     private Attraction currentAttraction;
     private Billetterie billetterie;
+    private EtatClient etat;
 
     //créer un client en indiquand les attractions disponible et la billetterie
     public Client(List<Attraction> listAttraction, Billetterie billetterie)
     {
         this.listAttraction = listAttraction;
         this.billetterie = billetterie;
+        this.etat = EtatClient.INIT;
     }
 
     //prend un nombre de ticket aléatoire dans la billetterie, fait 2 attractions aléatoire et sort.
@@ -23,25 +25,39 @@ public class Client extends Thread
     {
         try
         {
+            sleep(500);
             Random random = new Random();
-            int randomNumber = random.nextInt(20 + 1 - 1) + 1;
-            System.out.println("Je tente de prendre un ticket" + Thread.currentThread().getId());
+            int randomNumber = random.nextInt(5 + 1 - 1) + 1;
+            System.out.println("Je tente de prendre un ticket " + Thread.currentThread().getId());
             nbBillet = billetterie.takeTicket(randomNumber);
-            System.out.println("Je prend des tickets" + Thread.currentThread().getId());
+            this.etat = EtatClient.ENTERED;
+            System.out.println("Je prend des tickets " + Thread.currentThread().getId());
             for (int i = 0; i < 2; i++)
             {
                 randomNumber = random.nextInt(listAttraction.size());
                 currentAttraction = listAttraction.get(randomNumber);
-                sleep(500);
-                System.out.println("Je vais à l'attraction " + i + " numéro :" + randomNumber);
+                sleep(1500);
+                System.out.println("Je vais à l'attraction " + i + " numéro : " + randomNumber);
                 currentAttraction.embarquer(this);
-                System.out.println("J'ai finis l'attraction " + i + " numéro :" + randomNumber);
+                System.out.println("J'ai fini l'attraction " + i + " numéro : " + randomNumber);
+                currentAttraction.debarquer(this);
+//                nav.rouler(this);
             }
+            this.etat = EtatClient.GONE;
         }
         catch (InterruptedException e)
         {
             e.printStackTrace();
         }
-        System.out.println("je me casse");
+        System.out.println("Je m'en vais");
     }
+
+    public void setEtat(EtatClient e) {
+        this.etat = e;
+    }
+
+    public EtatClient getEtat() {
+        return this.etat;
+    }
+
 }

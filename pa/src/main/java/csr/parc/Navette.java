@@ -1,23 +1,25 @@
-package fr.istic.csr;
+package main.java.csr.parc;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Navette extends Thread
 {
-    private int tpsAttente;
+    private int tpsAttente = 1000;
     private int nbPlace;
-    private int tempsderoute = 100;
+    private int tempsderoute;
     private List<Client> clients;
     private Attraction attraction;
+    private EtatNavette etat;
 
-    //créer une nouvelle navette
-    public Navette(int tpsAttente, int nbPlace, Attraction attraction)
+    // Création d'une navette
+    public Navette(int tpsRoute, int nbPlace, Attraction attraction)
     {
-        this.tpsAttente = tpsAttente;
+        this.tempsderoute = tpsRoute;
         this.nbPlace = nbPlace;
         this.attraction = attraction;
         this.clients = new ArrayList<>();
+        this.etat = EtatNavette.TRAVELING;
         this.setDaemon(true);
     }
 
@@ -31,15 +33,31 @@ public class Navette extends Thread
     //ajoute un client dans la navette
     public synchronized void embarquer(Client cli)
     {
+        if (cli.getEtat() == EtatClient.ENTERED) {
+            cli.setEtat(EtatClient.RIDE1);
+        } else {
+            cli.setEtat(EtatClient.RIDE2);
+        }
         clients.add(cli);
         System.out.println("il y a " + clients.size() + " clients à bord");
     }
 
-    //débarque uniquement les clients si la navatte this se trouve à quai dans l'attraction
+    //débarque uniquement les clients si la navette this se trouve à quai dans l'attraction
     public synchronized void debarquer(Client cli) throws InterruptedException
     {
         while (this != attraction.getNavetteaQuai()) wait();
+        if (cli.getEtat() == EtatClient.RIDE1) {
+            cli.setEtat(EtatClient.TRANSIT);
+        }
         clients.remove(cli);
+    }
+
+    public void setEtat(EtatNavette e) {
+        this.etat = e;
+    }
+
+    public EtatNavette getEtat() {
+        return this.etat;
     }
 
     public synchronized void signalerArrivee()
@@ -47,8 +65,6 @@ public class Navette extends Thread
         notifyAll();
     }
 
-    //la navette signal son départ à l'attraction, roule, et se met en place file d'attente pour le retour puis attend que les gens
-    //montent et repart
     @Override
     public void run()
     {
@@ -60,6 +76,7 @@ public class Navette extends Thread
                 signalerArrivee();
                 sleep(tpsAttente);
                 attraction.departNavette();
+                this.etat = EtatNavette.TRAVELING;
                 sleep(tempsderoute);
             }
         }
