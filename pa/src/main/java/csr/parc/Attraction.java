@@ -33,7 +33,7 @@ public class Attraction
     // Méthode permettant de faire sortir les clients de la navette une fois le tour terminé
     public synchronized void debarquer(Client client) throws InterruptedException
     {
-        while (navetteaQuai == null) wait();
+        while (navetteaQuai == null || !navetteaQuai.getClients().contains(client)) wait();
         navetteaQuai.debarquer(client);
         System.out.println("je débarque");
     }
