@@ -21,20 +21,31 @@ public class Attraction
         }
     }
 
-    //méthode permettant à un client d'entrer dans une navette dès qu'il y a de la place disponible (attendre si non)
-    public synchronized void embarquer(Client client) throws InterruptedException
+//    //méthode permettant à un client d'entrer dans une navette dès qu'il y a de la place disponible (attendre si non)
+//    public synchronized void embarquer(Client client) throws InterruptedException
+//    {
+//        while (navetteaQuai == null || !navetteaQuai.isAvailablePlace()) wait();
+//        navetteaQuai.embarquer(client);
+//        System.out.println("J'embarque");
+////        wait();
+//    }
+//
+//    // Méthode permettant de faire sortir les clients de la navette une fois le tour terminé
+//    public synchronized void debarquer(Client client) throws InterruptedException
+//    {
+//        while (navetteaQuai == null) wait();
+//        navetteaQuai.debarquer(client);
+//        System.out.println("je débarque");
+//    }
+
+    public synchronized void embarquerEtDebarquer(Client client) throws InterruptedException
     {
         while (navetteaQuai == null || !navetteaQuai.isAvailablePlace()) wait();
-        navetteaQuai.embarquer(client);
+        Navette manav = navetteaQuai;
+        manav.embarquer(client);
         System.out.println("J'embarque");
-        wait();
-    }
-
-    // Méthode permettant de faire sortir les clients de la navette une fois le tour terminé
-    public synchronized void debarquer(Client client) throws InterruptedException
-    {
-        while (navetteaQuai == null) wait();
-        navetteaQuai.debarquer(client);
+//        wait();
+        manav.debarquer(client);
         System.out.println("je débarque");
     }
 
@@ -60,7 +71,8 @@ public class Attraction
         return navetteaQuai;
     }
 
-    public List<Navette> getNavettes() {
+    public List<Navette> getNavettes()
+    {
         return navettes;
     }
 }

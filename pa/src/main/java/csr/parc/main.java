@@ -44,6 +44,7 @@ public final class main
             clientList.add(tmpCli);
             tmpCli.start();
         }
+        System.out.println("terminé bonsoir");
     }
 
 }
