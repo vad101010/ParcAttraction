@@ -29,7 +29,6 @@ public final class main
 
         component.start();
 
-
         // Instanciation des éléments du parc
         Billetterie billetterie = new Billetterie();
         ResponsableBilletterie resp = new ResponsableBilletterie(billetterie);

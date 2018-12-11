@@ -11,7 +11,7 @@ public class Client extends Thread
     private Billetterie billetterie;
     private EtatClient etat;
 
-    //créer un client en indiquand les attractions disponible et la billetterie
+    // Crée un client en indiquant les attractions disponibles et la billetterie
     public Client(List<Attraction> listAttraction, Billetterie billetterie)
     {
         this.listAttraction = listAttraction;
@@ -19,7 +19,7 @@ public class Client extends Thread
         this.etat = EtatClient.INIT;
     }
 
-    //prend un nombre de ticket aléatoire dans la billetterie, fait 2 attractions aléatoire et sort.
+    // Prend un nombre de ticket aléatoire dans la billetterie, fait 2 attractions aléatoires et sort.
     @Override
     public void run()
     {

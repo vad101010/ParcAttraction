@@ -21,7 +21,7 @@ public class Attraction
         }
     }
 
-    //méthode permettant à un client d'entrer dans une navette dès qu'il y a de la place disponible (attendre si non)
+    // Méthode permettant à un client d'entrer dans une navette dès qu'il y a de la place disponible (attendre si non)
     public synchronized void embarquer(Client client) throws InterruptedException
     {
         while (navetteaQuai == null || !navetteaQuai.isAvailablePlace()) wait();
@@ -38,7 +38,7 @@ public class Attraction
         System.out.println("je débarque");
     }
 
-    //permet à une navette de se positionner dans la file d'attente pour le retour
+    // Permet à une navette de se positionner dans la file d'attente pour le retour
     public synchronized void retourNavette(Navette nav) throws InterruptedException
     {
         while (navetteaQuai != null) wait();
@@ -47,14 +47,14 @@ public class Attraction
         notifyAll();
     }
 
-    //permet à une navette de signaler son départ
+    // Permet à une navette de signaler son départ
     public synchronized void departNavette()
     {
         navetteaQuai = null;
         notifyAll();
     }
 
-    //retourne la navette actuellement à quai
+    // Retourne la navette actuellement à quai
     public Navette getNavetteaQuai()
     {
         return navetteaQuai;

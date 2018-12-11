@@ -23,18 +23,19 @@ public class Navette extends Thread
         this.setDaemon(true);
     }
 
+    // Retourne la liste des clients dans la navette
     public List<Client> getClients() {
         return clients;
     }
 
-    //retourn vrai si il y a de la place dans la navette
+    // Retourne vrai s'il y a de la place dans la navette
     public synchronized boolean isAvailablePlace()
     {
         if (nbPlace == clients.size()) return false;
         return true;
     }
 
-    //ajoute un client dans la navette
+    // Ajoute un client dans la navette
     public synchronized void embarquer(Client cli)
     {
         if (cli.getEtat() == EtatClient.ENTERED) {
@@ -46,7 +47,7 @@ public class Navette extends Thread
         System.out.println("il y a " + clients.size() + " clients à bord");
     }
 
-    //débarque uniquement les clients si la navette this se trouve à quai dans l'attraction
+    // Débarque uniquement les clients si la navette this se trouve à quai dans l'attraction
     public synchronized void debarquer(Client cli) throws InterruptedException
     {
         while (this != attraction.getNavetteaQuai()) wait();
