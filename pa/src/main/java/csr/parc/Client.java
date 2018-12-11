@@ -38,10 +38,9 @@ public class Client extends Thread
                 currentAttraction = listAttraction.get(randomNumber);
                 sleep(1500);
                 System.out.println("Je vais à l'attraction " + i + " numéro : " + randomNumber);
-                currentAttraction.embarquerEtDebarquer(this);
-//                currentAttraction.embarquer(this);
-//                currentAttraction.debarquer(this);
+                currentAttraction.embarquer(this);
                 System.out.println("J'ai fini l'attraction " + i + " numéro : " + randomNumber);
+                currentAttraction.debarquer(this);
             }
             this.etat = EtatClient.GONE;
         }
