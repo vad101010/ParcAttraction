@@ -8,4 +8,5 @@ Dans ce TP nous avons fait le choix d'avoir 5 classes en plus du Main qui vont s
 Nous avons identifé les problèmes suivants:
 1. Il s'agissait de faire attendre le thread "Client" séparément dans la "file d'attente" de l'attraction pour accéder à la navette puis une seconde attente à l'intérieur de la navette jusqu'à ce qu'elle réalise son tour et qu'elle revienne à quai afin que l'attente dans la navette ne bloque pas l'entrée des nouveaux clients dans l'attraction pendant le trajet de celle-ci.
 2. Il s'agissait également de faire attendre les navettes pour qu'il n'y ait qu'une navette à quai au maximum par attraction.
+   Au départ, on ne vérifiait pas si le client appartenait bien à la navette (dans Attraction) ce qui permettait au client d'aller à la 2e attraction par exemple alors qu'il se trouvait dans la navette.
 3. Le thread "ResponsableBilletterie" devait remettre des tickets dès lors que des clients était en attente pour en récupérer.

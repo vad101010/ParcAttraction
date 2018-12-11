@@ -49,7 +49,6 @@ public class Navette extends Thread
     // Débarque uniquement les clients si la navette this se trouve à quai dans l'attraction
     public synchronized void debarquer(Client cli) throws InterruptedException
     {
-        wait();
         while (this != attraction.getNavetteaQuai()) wait();
         if (cli.getEtat() == EtatClient.RIDE1) {
             cli.setEtat(EtatClient.TRANSIT);
