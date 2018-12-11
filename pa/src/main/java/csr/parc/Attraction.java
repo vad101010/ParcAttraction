@@ -9,8 +9,7 @@ public class Attraction
     private List<Navette> navettes;
 
     // Création de l'attraction avec son nombre de navettes, sa durée et le nombre de places par navette
-    public Attraction(int nbNavette, int tpsCircuit, int nbPlaces)
-    {
+    public Attraction(int nbNavette, int tpsCircuit, int nbPlaces) {
         navettes = new ArrayList<>();
         navetteaQuai = null;
         for (int i = 0; i < nbNavette; i++)

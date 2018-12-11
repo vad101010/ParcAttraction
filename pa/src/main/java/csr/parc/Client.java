@@ -12,8 +12,7 @@ public class Client extends Thread
     private EtatClient etat;
 
     // Crée un client en indiquant les attractions disponibles et la billetterie
-    public Client(List<Attraction> listAttraction, Billetterie billetterie)
-    {
+    public Client(List<Attraction> listAttraction, Billetterie billetterie) {
         this.listAttraction = listAttraction;
         this.billetterie = billetterie;
         this.etat = EtatClient.INIT;

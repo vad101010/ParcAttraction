@@ -13,8 +13,7 @@ public class Navette extends Thread
     private EtatNavette etat;
 
     // Création d'une navette
-    public Navette(int tpsRoute, int nbPlace, Attraction attraction)
-    {
+    public Navette(int tpsRoute, int nbPlace, Attraction attraction) {
         this.tempsderoute = tpsRoute;
         this.nbPlace = nbPlace;
         this.attraction = attraction;
